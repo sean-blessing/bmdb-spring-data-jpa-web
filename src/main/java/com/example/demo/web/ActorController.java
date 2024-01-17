@@ -36,8 +36,16 @@ public class ActorController {
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable int id) {
+	public Optional<Actor> delete(@PathVariable int id) {
 		actorRepo.deleteById(id);
+		Optional<Actor> actor = actorRepo.findById(id);
+		if (actor.isPresent()) {
+			actorRepo.deleteById(id);
+		}
+		else {
+			System.err.println("Error deleting actor");
+		}
+		return actor;
 	}
 	
 	// custom queries

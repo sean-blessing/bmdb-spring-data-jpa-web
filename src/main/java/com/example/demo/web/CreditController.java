@@ -39,8 +39,13 @@ public class CreditController {
 	}
 
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable int id) {
+	public Optional<Credit> delete(@PathVariable int id) {
 		creditRepo.deleteById(id);
+		Optional<Credit> credit = creditRepo.findById(id);
+		if (credit.isPresent()) {
+			creditRepo.deleteById(id);
+		}
+		return credit;
 	}
 	
 	// custom queries
